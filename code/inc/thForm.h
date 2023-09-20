@@ -8,10 +8,8 @@ class thForm : public thWindow
     friend LRESULT CALLBACK WinProc( HWND, UINT, WPARAM, LPARAM);
     friend class thMDIClient;
 public:
-                            thForm( thWindow * a_pParent = nullptr, int a_posX = CW_USEDEFAULT, int a_posY = CW_USEDEFAULT);
+                            thForm(HICON icon = 0, thString text = {}, thWindow * a_pParent = nullptr, int a_posX = CW_USEDEFAULT, int a_posY = CW_USEDEFAULT);
                             ~thForm();
-
-    thResizable             Resizable;
 
                             /* Menu */
     void                    SetMenu( thMenu * const);
@@ -24,6 +22,7 @@ private:
     static int              m_indexPool;
     thMenu *                m_menu;
     HWND                    m_hMDIClient;
+    HICON                   m_icon{0};
 
     virtual void            init();
     void                    registerClass();

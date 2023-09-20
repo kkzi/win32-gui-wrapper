@@ -1,4 +1,5 @@
 #pragma once
+
 #include "thWindow.h"
 
 class thCheckBox : public thWindow

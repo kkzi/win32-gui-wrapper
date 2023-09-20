@@ -1,7 +1,7 @@
 #include "thListViewColumn.h"
 #include "thListView.h"
 
-thListViewColumn::thListViewColumn( thListView & a_Parent, const thString & a_itemText)
+thListViewColumn::thListViewColumn( thListView & a_Parent, const thString & a_itemText, int width)
     :
     m_Parent( a_Parent)
 {
@@ -21,7 +21,7 @@ thListViewColumn::thListViewColumn( thListView & a_Parent, const thString & a_it
     }
 
     lvCol.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM; // Type of mask
-    lvCol.cx = 0x42; // Width of the column, in pixels
+    lvCol.cx = width; // Width of the column, in pixels
     lvCol.pszText = const_cast< LPTSTR>( m_text.c_str());
 
     LRESULT result = ListView_InsertColumn( this->m_Parent.GetHandle(), nColumnCount, &lvCol);

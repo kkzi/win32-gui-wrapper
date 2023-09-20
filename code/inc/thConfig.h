@@ -7,7 +7,7 @@
 1 - only messages
 0 - no logs
 */
-#define TH_DEBUG_LEVEL 1
+#define TH_DEBUG_LEVEL 0
 
 /* Defines */
 

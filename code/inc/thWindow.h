@@ -1,4 +1,5 @@
 #pragma once
+
 #include "thObject.h"
 #include "thText.h"
 #include "thWidth.h"
@@ -7,6 +8,7 @@
 #include "thPosY.h"
 #include "thPopupMenu.h"
 #include "thFont.h"
+#include "thWindowStyles.h"
 
 class thWindow;
 class thText;
@@ -16,10 +18,15 @@ class thPosX;
 class thPosY;
 class thPopupMenu;
 
+LRESULT CALLBACK WinProc( HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK ChildWindProc( HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
+
 class thWindow : public thObject
 {
     friend LRESULT CALLBACK WinProc( HWND, UINT, WPARAM, LPARAM);
     friend LRESULT CALLBACK ChildWindProc( HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
+    friend LRESULT CALLBACK MDIChildProc(HWND a_hwnd, UINT a_uMsg, WPARAM a_wParam, LPARAM a_lParam);
+
 public:
                             thWindow() = delete;
                             thWindow( thWindow * a_pParent, int a_posX = CW_USEDEFAULT, int a_posY = CW_USEDEFAULT);
@@ -32,6 +39,7 @@ public:
     thPosY                  Y;
     thPopupMenu *           PopupMenu;
     thFont                  Font;
+    thResizable             Resizable;
 
     struct {
         bool_t Left{ true};
@@ -41,11 +49,14 @@ public:
     } Anchors;
 
     struct {
-        int MinHeight{ 0};
         int MinWidth{ 0};
-        int MaxHeight{ 0};
+        int MinHeight{ 0};
         int MaxWidth{ 0};
+        int MaxHeight{ 0};
     } Constraints;
+
+    thEventCallbackFunc_t   OnDestroy{ nullptr};
+    std::unordered_map<int, thEventCallbackFunc_t> UserMessage { };
 
     void                    Show();
     void                    Hide();
@@ -56,8 +67,6 @@ public:
     void                    Destroy();
 
     virtual void            SetFocus();
-
-    thEventCallbackFunc_t   OnDestroy{ nullptr};
 
     thWindow *              GetParent() const;
 

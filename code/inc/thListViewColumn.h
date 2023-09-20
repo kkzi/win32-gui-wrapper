@@ -15,7 +15,7 @@ private:
 
 public:
                         thListViewColumn() = delete;
-                        thListViewColumn( thListView &, const thString &);
+                        thListViewColumn( thListView &, const thString &, int width=0x42);
                         ~thListViewColumn() = default;
 
     int                 GetIndex() const;

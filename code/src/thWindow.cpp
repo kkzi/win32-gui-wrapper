@@ -20,7 +20,8 @@ thWindow::thWindow( thWindow * a_pParent, int a_posX, int a_posY)
     Height( *this),
     X( *this),
     Y( *this),
-    Font( *this)
+    Font( *this),
+    Resizable( *this)
 {
     TH_ENTER_FUNCTION;
 
@@ -60,6 +61,12 @@ void thWindow::create()
 
     if ( NULL == m_hWinHandle)
     {
+        if (!Resizable)
+        {
+            m_sWindowArgs.dwStyle &= ~WS_MINIMIZEBOX;
+            m_sWindowArgs.dwStyle &= ~WS_MAXIMIZEBOX;
+            m_sWindowArgs.dwStyle &= ~WS_THICKFRAME;
+        }
         // Set the size, but not the position.
         RECT rcAdjWidth = {
                 0,
@@ -432,6 +439,11 @@ LRESULT thWindow::processMessage( HWND a_hwnd, UINT a_uMsg, WPARAM a_wParam, LPA
         tResult = this->onKeyDown( a_wParam, a_lParam);
         break;
 #endif
+    }
+
+    if (UserMessage.count(a_uMsg))
+    {
+        return UserMessage.at(a_uMsg)(this, {a_uMsg, a_wParam, a_lParam});
     }
 
     return result;

@@ -378,7 +378,7 @@ SecondWindow::SecondWindow( MyApplication & a_myApp) : m_myApp{ a_myApp}
 {
     thForm & parentWindow = *m_myApp.m_mainWindow->m_mainForm;
 
-    m_mainForm = std::make_unique< thForm>( &parentWindow);
+    m_mainForm = std::make_unique< thForm>(HICON{}, thString(), &parentWindow);
     m_mainForm->Width = 300;
     m_mainForm->Height = 300;
     m_mainForm->X = parentWindow.X + 200L;
@@ -455,7 +455,7 @@ ThirdWindow::ThirdWindow( MyApplication & a_myApp) : m_myApp{ a_myApp}
     thForm & parentWindow = *m_myApp.m_mainWindow->m_mainForm;
 
     // Create main window.
-    m_mainForm = std::make_unique< thForm>( &parentWindow);
+    m_mainForm = std::make_unique< thForm>(HICON{}, thString{}, &parentWindow);
     m_mainForm->Width = 500;
     m_mainForm->Height = 350;
     m_mainForm->X = 500;

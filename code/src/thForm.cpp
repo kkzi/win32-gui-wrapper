@@ -52,14 +52,13 @@ void thForm::registerClass()
     if ( true == once)
     {
         WNDCLASSEX window_class_ex = { 0 };
-
         window_class_ex.cbSize =         sizeof( window_class_ex);
         window_class_ex.style =          0; //CS_HREDRAW | CS_VREDRAW;
         window_class_ex.lpfnWndProc =    static_cast< WNDPROC>( WinProc);
         window_class_ex.cbClsExtra =     NULL;
         window_class_ex.cbWndExtra =     sizeof( thForm*); // 4 bytes for 'this' pointer
         window_class_ex.hInstance =      this->m_sWindowArgs.hInstance;
-        window_class_ex.hIcon =          NULL;
+        window_class_ex.hIcon =          m_icon;
         window_class_ex.hCursor =        LoadCursor( NULL, IDC_ARROW);
         window_class_ex.hbrBackground =  reinterpret_cast< HBRUSH>( COLOR_WINDOW);
         window_class_ex.lpszMenuName =   NULL;
@@ -78,12 +77,12 @@ void thForm::registerClass()
     TH_LEAVE_OBJECT_FUNCTION;
 }
 
-thForm::thForm( thWindow * a_pParent, int a_posX, int a_posY)
+thForm::thForm(HICON icon, thString text, thWindow* a_pParent /*= nullptr*/, int a_posX /*= CW_USEDEFAULT*/, int a_posY /*= CW_USEDEFAULT*/)
     :
     thWindow( a_pParent, a_posX, a_posY),
+    m_icon(icon),
     m_menu( nullptr),
-    m_hMDIClient( nullptr),
-    Resizable( *this)
+    m_hMDIClient( nullptr)
 {
     TH_ENTER_FUNCTION;
     
@@ -93,9 +92,11 @@ thForm::thForm( thWindow * a_pParent, int a_posX, int a_posY)
     g_forms.push_back( this);
 
     this->create();
+    this->Text = text;
 
     TH_LEAVE_FUNCTION;
 }
+
 
 thForm::~thForm()
 {

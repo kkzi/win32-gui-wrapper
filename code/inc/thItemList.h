@@ -25,9 +25,10 @@ public:
         return *m_items.at( a_nIndex);
     }
 
-    void Add( const thString & a_itemName)
+    template<class ...Args>
+    void Add(Args && ...args)
     {
-        m_items.push_back( std::make_unique< Titem>( m_pParent, a_itemName));
+        m_items.push_back( std::make_unique< Titem>( m_pParent, args...));
     }
 
     void Remove( int a_nIndex)
